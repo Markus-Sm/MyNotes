@@ -3,12 +3,12 @@ import { useState } from 'react'
 const initialNotes = [
 	{
 		id: 1332,
-		topic: 'Inne',
+		topic: 'Other',
 		description: 'Make a list of things needed to go to Germany for wark',
 	},
 	{
 		id: 1333,
-		topic: 'Zakupy',
+		topic: 'Shop',
 		description: 'Make a list of things to buy for the wedding',
 	},
 	{
@@ -29,7 +29,6 @@ function App() {
 
 	function handleDeleteNotes(id) {
 		setNotes(notes => notes.filter(note => note.id !== id))
-		console.log(id)
 	}
 
 	function hadnleShowPanel() {
@@ -84,8 +83,24 @@ function NoteArea({ notes, onDelete }) {
 }
 
 function Note({ note, onDelete }) {
+	let colorClass = ''
+
+	switch (note.topic) {
+		case 'Shop':
+			colorClass = 'green-square'
+			break
+		case 'Work':
+			colorClass = 'tomato-square'
+			break
+		case 'Other':
+			colorClass = 'liteGray-square'
+			break
+		default:
+			colorClass = ''
+	}
+
 	return (
-		<div className='note'>
+		<div className={`note ${colorClass}`}>
 			<div className='note-header'>
 				<h3 className='note-title'>{note.topic}</h3>
 				<button onClick={() => onDelete(note.id)} className='delete-note'>
