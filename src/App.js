@@ -115,9 +115,13 @@ function Note({ note, onDelete }) {
 function NotePanel({ onAddNotes, onClosePanel }) {
 	const [description, setDescription] = useState('')
 	const [topic, setTopic] = useState('0')
+	const [error, setError] = useState('')
 
 	function handleSubmit() {
-		if (!description && !topic) return
+		if (!description.trim() || topic === '0') {
+			setError('Complete all fields')
+			return
+		}
 
 		const newNote = { topic, description, id: Date.now() }
 
@@ -125,6 +129,7 @@ function NotePanel({ onAddNotes, onClosePanel }) {
 
 		setDescription('')
 		setTopic('')
+		setError('')
 	}
 
 	return (
@@ -137,13 +142,14 @@ function NotePanel({ onAddNotes, onClosePanel }) {
 				</option>
 				<option value='Shop'>Shop</option>
 				<option value='Work'>Work</option>
+				<option value='Daily Tasks'>Daily Tasks</option>
 				<option value='Other'>Other</option>
 			</select>
 
 			<label htmlFor='text'>Enter the content of the note</label>
 			<textarea id='text' value={description} onChange={e => setDescription(e.target.value)}></textarea>
 
-			<p className='error'>Complete all fields</p>
+			<p className='error'>{error}</p>
 
 			<div className='panel-buttons'>
 				<button onClick={handleSubmit} className='save icon'>
