@@ -4,23 +4,33 @@ const initialNotes = [
 	{
 		id: 1332,
 		topic: 'Inne',
-		text: 'Make a list of things needed to go to Germany for wark',
+		description: 'Make a list of things needed to go to Germany for wark',
 	},
 	{
 		id: 1333,
 		topic: 'Zakupy',
-		text: 'Make a list of things to buy for the wedding',
+		description: 'Make a list of things to buy for the wedding',
 	},
 	{
 		id: 1334,
 		topic: 'Work',
-		text: 'Get three days of work in April at your job as a waiter',
+		description: 'Get three days of work in April at your job as a waiter',
 	},
 ]
 
 function App() {
 	const [notes, setNotes] = useState(initialNotes)
 	const [showPanel, setShowPanel] = useState(false)
+
+	function handleAddNotes(newNote) {
+		setNotes(prevNotes => [...prevNotes, newNote])
+		setShowPanel(false)
+	}
+
+	function handleDeleteNotes(id) {
+		setNotes(notes => notes.filter(note => note.id !== id))
+		console.log(id)
+	}
 
 	function hadnleShowPanel() {
 		setShowPanel(true)
@@ -31,14 +41,16 @@ function App() {
 	}
 
 	function handleClearNote() {
-		setNotes([])
+		const confirmed = window.confirm('Are you sure you want to delete all task?')
+
+		if (confirmed) setNotes([])
 	}
 
 	return (
 		<div className='App'>
 			<Menu onShowPanel={hadnleShowPanel} onClearPanel={handleClearNote} />
-			<NoteArea notes={notes} />
-			{showPanel && <NotePanel onClosePanel={handleClosePanel} />}
+			<NoteArea notes={notes} onDelete={handleDeleteNotes} />
+			{showPanel && <NotePanel onAddNotes={handleAddNotes} onClosePanel={handleClosePanel} />}
 		</div>
 	)
 }
@@ -61,49 +73,67 @@ function Menu({ onShowPanel, onClearPanel }) {
 	)
 }
 
-function NoteArea({ notes }) {
+function NoteArea({ notes, onDelete }) {
 	return (
 		<div className='note-area'>
 			{notes.map(note => (
-				<Note note={note} key={note.id} />
+				<Note key={note.id} note={note} onDelete={onDelete} />
 			))}
 		</div>
 	)
 }
 
-function Note({ note }) {
+function Note({ note, onDelete }) {
 	return (
 		<div className='note'>
 			<div className='note-header'>
 				<h3 className='note-title'>{note.topic}</h3>
-				<button className='delete-note'>❌</button>
+				<button onClick={() => onDelete(note.id)} className='delete-note'>
+					❌
+				</button>
 			</div>
-			<div className='note-body'>{note.text}</div>
+			<div className='note-body'>{note.description}</div>
 		</div>
 	)
 }
 
-function NotePanel({ onClosePanel }) {
+function NotePanel({ onAddNotes, onClosePanel }) {
+	const [description, setDescription] = useState('')
+	const [topic, setTopic] = useState('0')
+
+	function handleSubmit() {
+		if (!description && !topic) return
+
+		const newNote = { topic, description, id: Date.now() }
+
+		onAddNotes(newNote)
+
+		setDescription('')
+		setTopic('')
+	}
+
 	return (
 		<div className='note-panel'>
 			<h2>Dodaj notatkę</h2>
 			<label htmlFor='category'>select category</label>
-			<select id='category'>
-				<option value='0' disabled selected>
+			<select value={topic} onChange={e => setTopic(e.target.value)} id='category'>
+				<option value='0' disabled>
 					- Select Category -
 				</option>
-				<option value='1'>Shop</option>
-				<option value='2'>Work</option>
-				<option value='3'>Inne</option>
+				<option value='Shop'>Shop</option>
+				<option value='Work'>Work</option>
+				<option value='Other'>Other</option>
 			</select>
 
 			<label htmlFor='text'>Enter the content of the note</label>
-			<textarea id='text'></textarea>
+			<textarea id='text' value={description} onChange={e => setDescription(e.target.value)}></textarea>
 
 			<p className='error'>Complete all fields</p>
 
 			<div className='panel-buttons'>
-				<button className='save icon'>⬇️ Save</button>
+				<button onClick={handleSubmit} className='save icon'>
+					⬇️ Save
+				</button>
 				<button onClick={onClosePanel} className='cancel icon'>
 					❌ Cancel
 				</button>
