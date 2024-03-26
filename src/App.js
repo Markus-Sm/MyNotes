@@ -2,6 +2,8 @@ function App() {
 	return (
 		<div className='App'>
 			<Menu />
+			<NoteArea />
+			<NotePanel />
 		</div>
 	)
 }
@@ -30,9 +32,33 @@ function NoteArea() {
 				</div>
 				<div className='note-body'>lorem</div>
 				Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit esse, neque possimus expedita deserunt delectus.
-				Nihil, harum dolorum aspernatur molestiae et pariatur minima perferendis magnam temporibus libero esse, error
-				voluptates repudiandae necessitatibus atque id qui voluptatem? Repellat nulla repudiandae quo, esse optio
-				necessitatibus ab enim labore dolor deleniti libero quasi.
+			</div>
+		</div>
+	)
+}
+
+function NotePanel() {
+	return (
+		<div className='note-panel'>
+			<h2>Dodaj notatkę</h2>
+			<label htmlFor='category'>select category</label>
+			<select id='category'>
+				<option value='0' disabled selected>
+					- Select Category -
+				</option>
+				<option value='1'>Shop</option>
+				<option value='2'>Work</option>
+				<option value='3'>Inne</option>
+			</select>
+
+			<label htmlFor='text'>Enter the content of the note</label>
+			<textarea id='text'></textarea>
+
+			<p className='error'>Complete all fields</p>
+
+			<div className='panel-buttons'>
+				<button className='save icon'>⬇️ Save</button>
+				<button className='cancel icon'>❌ Cancel</button>
 			</div>
 		</div>
 	)
