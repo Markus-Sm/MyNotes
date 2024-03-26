@@ -66,6 +66,16 @@ body {
 	border: 1px solid black;
 }
 
+.green-square {
+	background-color: greenyellow;
+}
+.tomato-square {
+	background-color: tomato;
+}
+.liteGray-square {
+	background-color: rgb(163, 163, 163);
+}
+
 .note-header {
 	display: flex;
 	justify-content: space-between;
