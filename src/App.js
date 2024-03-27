@@ -14,7 +14,7 @@ const initialNotes = [
 	{
 		id: 1334,
 		topic: 'Work',
-		description: 'Get three days of work in April at your job as a waiter',
+		description: 'Get three days of work in April at your job as a back-end developer',
 	},
 ]
 
@@ -61,12 +61,8 @@ function Menu({ onShowPanel, onClearPanel }) {
 		<div className='menu'>
 			<h1>🗒️ MyNotes</h1>
 			<div className='menu-buttons'>
-				<button onClick={onShowPanel} className='add icon'>
-					➕ Add
-				</button>
-				<button onClick={onClearPanel} className='delete-all icon'>
-					🗑️ Delete all
-				</button>
+				<Button onClick={onShowPanel}>➕ Add</Button>
+				<Button onClick={onClearPanel}>🗑️ Delete all</Button>
 			</div>
 		</div>
 	)
@@ -152,13 +148,17 @@ function NotePanel({ onAddNotes, onClosePanel }) {
 			<p className='error'>{error}</p>
 
 			<div className='panel-buttons'>
-				<button onClick={handleSubmit} className='save icon'>
-					⬇️ Save
-				</button>
-				<button onClick={onClosePanel} className='cancel icon'>
-					❌ Cancel
-				</button>
+				<Button onClick={handleSubmit}>⬇️ Save</Button>
+				<Button onClick={onClosePanel}>❌ Cancel</Button>
 			</div>
 		</div>
+	)
+}
+
+function Button({ onClick, children }) {
+	return (
+		<button onClick={onClick} className='btn icon'>
+			{children}
+		</button>
 	)
 }

@@ -26,8 +26,7 @@ body {
 }
 
 .menu button,
-.note-panel .save,
-.note-panel .cancel {
+.note-panel .btn {
 	padding: 12px 25px;
 	background: none;
 	border: 1px solid #999;
@@ -46,10 +45,6 @@ body {
 
 .icon {
 	margin-right: 10px;
-}
-
-.add {
-	margin-right: 20px;
 }
 
 .note-area {
